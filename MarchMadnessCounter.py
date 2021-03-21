@@ -13,7 +13,9 @@ r_data = pd.read_csv('results.csv')
 r_df = pd.DataFrame(r_data)
 
 rounds = r_df.columns[1:]
-cols = rounds
+cols = rounds[:-1]
+if 'Unnamed' in cols[-1]:
+    cols = cols[:-1]
 
 players = ['Will','Mamta','Paul']
 
@@ -21,7 +23,7 @@ player_picks = {}
 
 for i in players:
     data = pd.read_csv(f'{i} picks.csv')
-    df = pd.DataFrame(data)
+    df = pd.DataFrame(data,columns=cols)
     player_picks[i] = {}
     player_picks[i]['df'] = df
     
@@ -74,7 +76,7 @@ def project(player_df,complete_rounds):
         for t in picks:
             if t not in results:
                 for r in range(i,len(cols)):
-                    t_df[cols[i]] = t_df[cols[i]].replace(t,np.nan)
+                    t_df[cols[r]] = t_df[cols[r]].replace(t,np.nan)
     
     score = 0
     for i in range(0,len(cols)):
@@ -90,6 +92,6 @@ print(baseline(r_df))
 for i in players:
     p_df = player_picks[i]['df'] 
     s = score(p_df)
-    projection = project(p_df,1)
+    projection = project(p_df,2)
     print(f'{i}: {s} - {projection}')
 

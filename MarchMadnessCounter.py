@@ -92,6 +92,6 @@ print(baseline(r_df))
 for i in players:
     p_df = player_picks[i]['df'] 
     s = score(p_df)
-    projection = project(p_df,2)
+    projection = project(p_df,3)
     print(f'{i}: {s} - {projection}')
 
